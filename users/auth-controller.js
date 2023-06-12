@@ -49,9 +49,7 @@ function AuthenticationController(app){
 
 
  const update   = (req, res) => { 
-    // implement this update
-
-
+    
  };
 
 
