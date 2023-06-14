@@ -15,7 +15,7 @@ app.use(
    );
 app.use(cors({
     credentials: true,
-    origin: "http://localhost:3000",
+    origin: "https://a5--gentle-alfajores-b60970.netlify.app",
   }
  ));
 app.use(express.json());
