@@ -11,7 +11,7 @@ const UserController = (app) => {
 
 
 
-const findAllUsers = async (req, res) => {
+const findUsers = async (req, res) => {
   const username = req.query.username;
   const password = req.query.password;
   if (username && password) {
@@ -35,16 +35,16 @@ const findAllUsers = async (req, res) => {
 };
 
 
-const findUsers = (req, res) => {
-  const type = req.query.type
-  if (type) {
-    const usersOfType = users
-      .filter(u => u.type === type)
-    res.json(usersOfType)
-    return
-  }
-  res.json(users)
-}
+// const findUsers = (req, res) => {
+//   const type = req.query.type
+//   if (type) {
+//     const usersOfType = users
+//       .filter(u => u.type === type)
+//     res.json(usersOfType)
+//     return
+//   }
+//   res.json(users)
+// }
 const findUserById = async (req, res) => {
   const id = req.params.id;
   const user = await usersDao.findUserById(id);

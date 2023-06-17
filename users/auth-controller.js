@@ -18,11 +18,14 @@ const AuthController = (app) => {
     const login = async (req, res) => {
         const username = req.body.username;
         const password = req.body.password;
+        console.log(username, password);
         if (username && password) {
             const user = await usersDao.findUserByCredentials(username, password);
             if (user) {
                 req.session["currentUser"] = user;
+                console.log("inside controller", user);
                 res.json(user);
+
             } else {
                 res.sendStatus(403);
             }
