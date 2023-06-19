@@ -6,20 +6,28 @@ import cors from 'cors';
 import session from "express-session";
 import AuthController from "./users/auth-controller.js";
 import mongoose from "mongoose";
-//mongoose.connect("mongodb://127.0.0.1:27017/tuiter");
-mongoose.connect("mongodb+srv://eshaacharya9:Eg26uYGLCm0JbX7Q@cluster0.rajndfx.mongodb.net/tuiter?retryWrites=true&w=majority")
+
+// mongoose.connect("mongodb://127.0.0.1:27017/tuiter");
+ mongoose.connect("mongodb+srv://eshaacharya9:Eg26uYGLCm0JbX7Q@cluster0.rajndfx.mongodb.net/tuiter?retryWrites=true&w=majority")
+
+// const CONNECTION_STRING = process.env.DB_CONNECTION_STRING || 'mongodb://127.0.0.1:27017/tuiter'
+// mongoose.connect(CONNECTION_STRING);
 const app = express();
 app.use(cors({
     credentials: true,
-    //origin: "https://a5--gentle-alfajores-b60970.netlify.app",
-    origin: "http://localhost:3000"
+    origin: ["http://localhost:3000","https://a6--gentle-alfajores-b60970.netlify.app/tuiter"]
   }
  ));
  app.use(
   session({
     secret: "any string",
     resave: false,
-    saveUninitialized: true,
+    proxy: true,
+    saveUninitialized: false,
+    cookie: {
+      sameSite: "none",
+      secure: true
+    }
   })
  );
 app.use(express.json());
