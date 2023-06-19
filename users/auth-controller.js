@@ -1,17 +1,17 @@
 import * as usersDao from "./users-dao.js";
 
-var currentUserVar;
+// var currentUserVar;
 const AuthController = (app) => {
     const register = async (req, res) => {
         const user = await usersDao.findUserByUsername(req.body.username);
         if (user) {
-            res.sendStatus(403);
+            res.sendStatus(409);
             return;
         }
         const newUser = await usersDao.createUser(req.body);
         console.log(newUser);
         req.session["currentUser"] = newUser;
-
+        res.json(newUser);
 
     };
 
@@ -23,7 +23,6 @@ const AuthController = (app) => {
             const user = await usersDao.findUserByCredentials(username, password);
             if (user) {
                 req.session["currentUser"] = user;
-                console.log("inside controller", user);
                 res.json(user);
 
             } else {
@@ -36,7 +35,7 @@ const AuthController = (app) => {
     };
 
     const profile = async (req, res) => {
-        const currentUser = currentUserVar;
+        const currentUser = req.session["currentUser"];
         if (!currentUser) {
             res.sendStatus(404);
             return;
@@ -50,17 +49,24 @@ const AuthController = (app) => {
     };
 
     const update = async (req, res) => {
-        const currentUser = currentUserVar;
+        console.log('===> update')
+        const currentUser = req.session["currentUser"];
+        console.log(currentUser)
         if (!currentUser) {
             res.sendStatus(404);
             return;
         }
         const userId = currentUser._id;
         const updates = req.body;
-        const updatedUser = usersDao.updateUser(userId, updates);
-        if (updatedUser) {
-            currentUserVar = updatedUser;
-            res.json(updatedUser);
+        console.log(updates)
+        const newUser = {...currentUser, ...req.body};
+        console.log(newUser)
+        const status = await usersDao.updateUser(userId, updates);
+//        console.log(status)
+        if (status) {
+            req.session["currentUser"] = newUser;
+            console.log(req.session)
+            res.json(status);
         } else {
             res.sendStatus(404);
         }
@@ -71,7 +77,7 @@ const AuthController = (app) => {
     app.post("/api/users/login", login);
     app.post("/api/users/profile", profile);
     app.post("/api/users/logout", logout);
-    app.put("/api/users", update);
+    app.put("/api/users/:id", update);
 };
 
 export default AuthController;
