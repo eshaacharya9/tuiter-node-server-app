@@ -9,7 +9,7 @@ const createTuit = async (req, res) => {
     newTuit.replies = 0;
     newTuit.time = "1s";
     newTuit.retuits = 0;
-   const insertedTuit = await tuitsDao.createTuit(newTuit);
+    const insertedTuit = await tuitsDao.createTuit(newTuit);
     res.json(insertedTuit);
 
 }

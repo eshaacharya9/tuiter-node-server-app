@@ -15,7 +15,7 @@ import mongoose from "mongoose";
 const app = express();
 app.use(cors({
     credentials: true,
-    origin: ["http://localhost:3000","https://a6--gentle-alfajores-b60970.netlify.app/tuiter"]
+    origin: ["http://localhost:3000","http://localhost:3001","https://a6--gentle-alfajores-b60970.netlify.app/tuiter"]
   }
  ));
  app.use(
