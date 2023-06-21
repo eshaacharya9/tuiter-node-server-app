@@ -11,7 +11,10 @@ const schema = mongoose.Schema({
   handle: String,
   title: String,
   time: String,
-  image: String,
+  image: {
+    type: String,
+    default: "profile.jpg"
+  },
   disliked: Boolean
 }, {collection: 'tuits'});
 export default schema;
